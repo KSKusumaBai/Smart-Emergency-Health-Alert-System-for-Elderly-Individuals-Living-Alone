@@ -1,0 +1,19 @@
+ width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="45" fill="#4CAF50" stroke="#2E7D32" stroke-width="2"/>
+  
+  <!-- Heart shape -->
+  <path d="M50 75 C40 65, 25 50, 35 35 C40 30, 50 35, 50 40 C50 35, 60 30, 65 35 C75 50, 60 65, 50 75 Z" fill="#FFFFFF"/>
+  
+  <!-- Pulse line -->
+  <path d="M20 50 L30 50 L35 40 L40 60 L45 30 L50 70 L55 30 L60 60 L65 40 L70 50 L80 50" 
+        stroke="#FFFFFF" stroke-width="2" fill="none" stroke-linecap="round"/>
+  
+  <!-- Plus sign for medical -->
+  <rect x="47" y="15" width="6" height="20" fill="#FFFFFF" rx="2"/>
+  <rect x="40" y="22" width="20" height="6" fill="#FFFFFF" rx="2"/>
+  
+  <!-- Watch indication -->
+  <rect x="75" y="75" width="20" height="15" rx="3" fill="#FFFFFF" stroke="#4CAF50" stroke-width="1"/>
+  <circle cx="85" cy="82.5" r="2" fill="#4CAF50"/>
+</svg>

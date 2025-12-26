@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">HealthGuard Elder Care</string>
+    
+    <!-- Welcome Screen -->
+    <string name="welcome_title">HealthGuard</string>
+    <string name="welcome_subtitle">Your Personal Health Guardian</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_emergency">Emergency</string>
+    <string name="btn_doctor_portal">Doctor Portal</string>
+    
+    <!-- Authentication -->
+    <string name="login_title">Welcome Back</string>
+    <string name="login_subtitle">Sign in to your account</string>
+    <string name="login_button">Sign In</string>
+    <string name="register_title">Join HealthGuard</string>
+    <string name="register_subtitle">Create your account</string>
+    <string name="register_button">Sign Up</string>
+    <string name="switch_to_register">Don\'t have an account? Sign up</string>
+    <string name="switch_to_login">Already have an account? Sign in</string>
+    <string name="forgot_password">Forgot Password?</string>
+    
+    <!-- Form Fields -->
+    <string name="hint_name">Full Name</string>
+    <string name="hint_email">Email Address</string>
+    <string name="hint_password">Password</string>
+    
+    <!-- Validation Errors -->
+    <string name="error_name_required">Name is required</string>
+    <string name="error_invalid_email">Please enter a valid email address</string>
+    <string name="error_weak_password">Password must be at least 6 characters</string>
+    
+    <!-- Dashboard -->
+    <string name="dashboard_title">Health Dashboard</string>
+    <string name="health_status">Health Status</string>
+    <string name="heart_rate">Heart Rate</string>
+    <string name="blood_pressure">Blood Pressure</string>
+    <string name="temperature">Temperature</string>
+    <string name="activity_level">Activity Level</string>
+    <string name="last_updated">Last Updated</string>
+    
+    <!-- Health Status -->
+    <string name="status_normal">Normal</string>
+    <string name="status_abnormal">Abnormal</string>
+    <string name="status_critical">Critical</string>
+    <string name="status_unknown">Unknown</string>
+    
+    <!-- Emergency -->
+    <string name="emergency_title">Emergency Alert</string>
+    <string name="emergency_description">Press and hold for 3 seconds to send emergency alert</string>
+    <string name="emergency_triggered">Emergency alert sent!</string>
+    <string name="fall_detected">Fall detected!</string>
+    <string name="emergency_contacts">Emergency Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="contact_phone">Phone Number</string>
+    <string name="contact_relationship">Relationship</string>
+    
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="health_thresholds">Health Thresholds</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy">Privacy</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    
+    <!-- Bluetooth -->
+    <string name="bluetooth_title">Connect Device</string>
+    <string name="bluetooth_scan">Scan for Devices</string>
+    <string name="bluetooth_connecting">Connecting...</string>
+    <string name="bluetooth_connected">Connected</string>
+    <string name="bluetooth_disconnected">Disconnected</string>
+    
+    <!-- Doctor Portal -->
+    <string name="doctor_portal_title">Doctor Portal</string>
+    <string name="patient_data">Patient Data</string>
+    <string name="abnormal_readings">Abnormal Readings</string>
+    <string name="patient_search">Search Patient</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="back">Back</string>
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    
+    <!-- Permissions -->
+    <string name="permission_bluetooth_title">Bluetooth Permission</string>
+    <string name="permission_bluetooth_message">This app needs Bluetooth access to connect with your smartwatch</string>
+    <string name="permission_location_title">Location Permission</string>
+    <string name="permission_location_message">Location access is needed for emergency services</string>
+    <string name="permission_sms_title">SMS Permission</string>
+    <string name="permission_sms_message">SMS permission is needed to send emergency alerts</string>
+    
+    <!-- Notifications -->
+    <string name="notification_health_monitoring">Health monitoring active</string>
+    <string name="notification_emergency_alert">Emergency alert triggered</string>
+    <string name="notification_abnormal_reading">Abnormal health reading detected</string>
+</resources>

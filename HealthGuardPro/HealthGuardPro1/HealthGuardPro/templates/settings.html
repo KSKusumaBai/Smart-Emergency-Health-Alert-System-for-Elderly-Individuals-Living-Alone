@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/dashboard">
+                <img src="https://img.icons8.com/?size=160&id=gGzKQpIO0LTx&format=png" alt="HealthGuard" width="40" height="40" class="me-2">
+                HealthGuard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard"><i class="fas fa-chart-line me-1"></i>Dashboard</a>
+                <a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="mb-4"><i class="fas fa-cog me-2"></i>Settings & Profile</h2>
+
+                <!-- User Profile -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-user me-2"></i>User Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="userName" placeholder="Enter your name">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="userPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="userPhone" placeholder="Enter phone number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="userAge" class="form-label">Age</label>
+                                    <input type="number" class="form-control" id="userAge" placeholder="Enter your age">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="userEmail" class="form-label">Email (Read-only)</label>
+                                    <input type="email" class="form-control" id="userEmail" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="medicalConditions" class="form-label">Medical Conditions (Optional)</label>
+                            <textarea class="form-control" id="medicalConditions" rows="3" placeholder="List any medical conditions or allergies"></textarea>
+                        </div>
+                        <button class="btn btn-success" onclick="saveUserProfile()">
+                            <i class="fas fa-save me-2"></i>Save Profile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-phone me-2"></i>Emergency Contacts</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Set up your emergency contacts in order of priority. In case of emergency, they will be contacted in this order.</p>
+                        
+                        <div id="emergencyContacts">
+                            <!-- Contacts will be loaded here -->
+                        </div>
+                        
+                        <button class="btn btn-outline-primary" onclick="addEmergencyContact()">
+                            <i class="fas fa-plus me-2"></i>Add Contact
+                        </button>
+                        
+                        <button class="btn btn-success ms-2" onclick="saveEmergencyContacts()">
+                            <i class="fas fa-save me-2"></i>Save Contacts
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Health Thresholds -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Health Thresholds</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Customize your health parameter thresholds for different activities.</p>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Rest State</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Heart Rate Range (bpm)</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="restHRMin" placeholder="Min" value="60">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="restHRMax" placeholder="Max" value="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Blood Pressure Range (systolic)</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="restBPMin" placeholder="Min" value="90">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="restBPMax" placeholder="Max" value="140">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Active State</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Heart Rate Range (bpm)</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="activeHRMin" placeholder="Min" value="100">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="activeHRMax" placeholder="Max" value="150">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Blood Pressure Range (systolic)</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="activeBPMin" placeholder="Min" value="100">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="activeBPMax" placeholder="Max" value="160">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Temperature Range (°F)</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="tempMin" placeholder="Min" value="97" step="0.1">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" class="form-control" id="tempMax" placeholder="Max" value="99.5" step="0.1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-success" onclick="saveThresholds()">
+                            <i class="fas fa-save me-2"></i>Save Thresholds
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data & Privacy -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Data & Privacy</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="shareDataDoctors" checked>
+                            <label class="form-check-label" for="shareDataDoctors">
+                                Allow doctors to access abnormal health data
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="locationTracking" checked>
+                            <label class="form-check-label" for="locationTracking">
+                                Enable location tracking for emergencies
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="dataBackup" checked>
+                            <label class="form-check-label" for="dataBackup">
+                                Automatic data backup to cloud
+                            </label>
+                        </div>
+                        
+                        <button class="btn btn-success" onclick="savePrivacySettings()">
+                            <i class="fas fa-save me-2"></i>Save Privacy Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- About -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>About HealthGuard</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Version:</strong> 1.0.0</p>
+                        <p><strong>Description:</strong> Smart health monitoring application with AI-powered analysis and emergency response system.</p>
+                        <p><strong>Features:</strong></p>
+                        <ul>
+                            <li>Continuous health monitoring via smartwatch</li>
+                            <li>AI-powered abnormality detection</li>
+                            <li>Emergency alert system</li>
+                            <li>Doctor portal for medical review</li>
+                            <li>Location tracking for emergencies</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script>
+        let emergencyContactsData = [];
+
+        // Load user profile and emergency contacts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProfile();
+            loadEmergencyContacts();
+        });
+
+        async function loadUserProfile() {
+            try {
+                const response = await fetch('/api/user-profile');
+                if (response.ok) {
+                    const userData = await response.json();
+                    document.getElementById('userName').value = userData.name || '';
+                    document.getElementById('userEmail').value = userData.email || '';
+                    document.getElementById('userPhone').value = userData.phone || '';
+                    document.getElementById('userAge').value = userData.age || '';
+                    document.getElementById('medicalConditions').value = userData.medical_conditions || '';
+                }
+            } catch (error) {
+                console.error('Failed to load user profile:', error);
+            }
+        }
+
+        async function saveUserProfile() {
+            try {
+                const profileData = {
+                    name: document.getElementById('userName').value,
+                    phone: document.getElementById('userPhone').value,
+                    age: document.getElementById('userAge').value,
+                    medical_conditions: document.getElementById('medicalConditions').value
+                };
+
+                const response = await fetch('/api/user-profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (response.ok) {
+                    alert('Profile saved successfully!');
+                } else {
+                    throw new Error('Failed to save profile');
+                }
+            } catch (error) {
+                alert('Failed to save profile: ' + error.message);
+            }
+        }
+
+        async function loadEmergencyContacts() {
+            try {
+                const response = await fetch('/api/emergency-contacts');
+                if (response.ok) {
+                    emergencyContactsData = await response.json();
+                    renderEmergencyContacts();
+                }
+            } catch (error) {
+                console.error('Failed to load emergency contacts:', error);
+            }
+        }
+
+        function renderEmergencyContacts() {
+            const container = document.getElementById('emergencyContacts');
+            
+            if (emergencyContactsData.length === 0) {
+                container.innerHTML = '<p class="text-muted">No emergency contacts added yet.</p>';
+                return;
+            }
+
+            const html = emergencyContactsData.map((contact, index) => `
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-1">
+                                <span class="badge bg-primary">${index + 1}</span>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" value="${contact.name}" onchange="updateContact(${index}, 'name', this.value)">
+                            </div>
+                            <div class="col-3">
+                                <input type="text" class="form-control" value="${contact.phone}" onchange="updateContact(${index}, 'phone', this.value)">
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" onchange="updateContact(${index}, 'relationship', this.value)">
+                                    <option value="family" ${contact.relationship === 'family' ? 'selected' : ''}>Family</option>
+                                    <option value="friend" ${contact.relationship === 'friend' ? 'selected' : ''}>Friend</option>
+                                    <option value="neighbor" ${contact.relationship === 'neighbor' ? 'selected' : ''}>Neighbor</option>
+                                    <option value="caretaker" ${contact.relationship === 'caretaker' ? 'selected' : ''}>Caretaker</option>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-outline-danger btn-sm" onclick="removeContact(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        function addEmergencyContact() {
+            emergencyContactsData.push({
+                name: '',
+                phone: '',
+                relationship: 'family'
+            });
+            renderEmergencyContacts();
+        }
+
+        function updateContact(index, field, value) {
+            emergencyContactsData[index][field] = value;
+        }
+
+        function removeContact(index) {
+            emergencyContactsData.splice(index, 1);
+            renderEmergencyContacts();
+        }
+
+        async function saveEmergencyContacts() {
+            try {
+                const response = await fetch('/api/emergency-contacts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contacts: emergencyContactsData
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Emergency contacts saved successfully!');
+                } else {
+                    throw new Error('Failed to save contacts');
+                }
+            } catch (error) {
+                alert('Failed to save emergency contacts: ' + error.message);
+            }
+        }
+
+        function saveThresholds() {
+            // Save threshold values to localStorage for now
+            const thresholds = {
+                rest: {
+                    heartRate: {
+                        min: document.getElementById('restHRMin').value,
+                        max: document.getElementById('restHRMax').value
+                    },
+                    bloodPressure: {
+                        min: document.getElementById('restBPMin').value,
+                        max: document.getElementById('restBPMax').value
+                    }
+                },
+                active: {
+                    heartRate: {
+                        min: document.getElementById('activeHRMin').value,
+                        max: document.getElementById('activeHRMax').value
+                    },
+                    bloodPressure: {
+                        min: document.getElementById('activeBPMin').value,
+                        max: document.getElementById('activeBPMax').value
+                    }
+                },
+                temperature: {
+                    min: document.getElementById('tempMin').value,
+                    max: document.getElementById('tempMax').value
+                }
+            };
+
+            localStorage.setItem('healthThresholds', JSON.stringify(thresholds));
+            alert('Health thresholds saved successfully!');
+        }
+
+        function savePrivacySettings() {
+            const settings = {
+                shareDataDoctors: document.getElementById('shareDataDoctors').checked,
+                locationTracking: document.getElementById('locationTracking').checked,
+                dataBackup: document.getElementById('dataBackup').checked
+            };
+
+            localStorage.setItem('privacySettings', JSON.stringify(settings));
+            alert('Privacy settings saved successfully!');
+        }
+    </script>
+</body>
+</html>

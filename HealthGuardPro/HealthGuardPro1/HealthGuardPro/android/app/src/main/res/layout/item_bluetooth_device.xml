@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:rippleColor="@color/primary_color"
+    app:strokeColor="@color/hint_text"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <!-- Device Icon -->
+        <ImageView
+            android:id="@+id/iv_device_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_circle_primary"
+            android:contentDescription="Device Icon"
+            android:padding="12dp"
+            android:src="@drawable/ic_watch"
+            app:tint="@color/white" />
+
+        <!-- Device Info -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:textColor="@color/primary_text"
+                android:textSize="16sp"
+                tools:text="Fitbit Versa 3" />
+
+            <TextView
+                android:id="@+id/tv_device_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/secondary_text"
+                android:textSize="14sp"
+                tools:text="AA:BB:CC:DD:EE:FF" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Tap to connect"
+                android:textColor="@color/primary_color"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <!-- Signal Strength Indicator -->
+        <ImageView
+            android:id="@+id/iv_signal_strength"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="Signal Strength"
+            android:src="@drawable/ic_signal_strong"
+            app:tint="@color/success_color" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

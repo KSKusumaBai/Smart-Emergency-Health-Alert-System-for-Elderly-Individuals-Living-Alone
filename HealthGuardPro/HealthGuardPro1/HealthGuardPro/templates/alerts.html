@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthGuard Alerts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/styles.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/dashboard">
+                <img src="https://img.icons8.com/?size=160&id=gGzKQpIO0LTx&format=png" alt="HealthGuard" width="40" height="40" class="me-2">
+                HealthGuard
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+                <a class="nav-link active" href="/alerts"><i class="fas fa-bell me-1"></i>Alerts</a>
+                <a class="nav-link" href="/settings"><i class="fas fa-cog me-1"></i>Settings</a>
+                <a class="nav-link" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i>Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2><i class="fas fa-bell text-warning me-2"></i>Health Alerts & Emergency History</h2>
+                    <button class="btn btn-outline-primary" onclick="refreshAlerts()">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                </div>
+
+                <!-- Alert Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">Filter by Type</label>
+                                <select class="form-select" id="alertTypeFilter">
+                                    <option value="all">All Alerts</option>
+                                    <option value="emergency">Emergency</option>
+                                    <option value="abnormal">Abnormal Vitals</option>
+                                    <option value="normal">Normal Updates</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Date Range</label>
+                                <select class="form-select" id="dateRangeFilter">
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                    <option value="all">All Time</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" id="statusFilter">
+                                    <option value="all">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="resolved">Resolved</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 d-flex align-items-end">
+                                <button class="btn btn-primary w-100" onclick="applyFilters()">
+                                    <i class="fas fa-filter me-1"></i>Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alerts List -->
+                <div id="alertsContainer">
+                    <div class="text-center py-5">
+                        <i class="fas fa-spinner fa-spin fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Loading alerts...</p>
+                    </div>
+                </div>
+
+                <!-- Emergency History -->
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-history me-2"></i>Emergency History</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="emergencyHistory">
+                            <div class="text-center py-3">
+                                <i class="fas fa-spinner fa-spin fa-2x text-muted mb-2"></i>
+                                <p class="text-muted">Loading emergency history...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Detail Modal -->
+    <div class="modal fade" id="alertDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-info-circle me-2"></i>Alert Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="alertDetailContent">
+                    <!-- Alert details will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/alerts.js"></script>
+    <script src="/static/js/auth.js"></script>
+    <script>
+        // Alerts page specific functionality
+        class AlertsPage {
+            constructor() {
+                this.alerts = [];
+                this.emergencies = [];
+                this.currentFilters = {
+                    type: 'all',
+                    dateRange: 'today',
+                    status: 'all'
+                };
+                this.loadAlerts();
+                this.loadEmergencyHistory();
+            }
+
+            async loadAlerts() {
+                try {
+                    const response = await fetch('/api/health-data?limit=100');
+                    if (response.ok) {
+                        const healthData = await response.json();
+                        this.alerts = this.processHealthDataIntoAlerts(healthData);
+                        this.displayAlerts();
+                    }
+                } catch (error) {
+                    console.error('Failed to load alerts:', error);
+                    document.getElementById('alertsContainer').innerHTML =
+                        '<div class="alert alert-danger">Failed to load alerts. Please try again.</div>';
+                }
+            }
+
+            async loadEmergencyHistory() {
+                try {
+                    // This would need a new API endpoint for emergencies
+                    // For now, show placeholder
+                    document.getElementById('emergencyHistory').innerHTML =
+                        '<p class="text-muted text-center">Emergency history will be displayed here.</p>';
+                } catch (error) {
+                    console.error('Failed to load emergency history:', error);
+                }
+            }
+
+            processHealthDataIntoAlerts(healthData) {
+                return healthData.map(record => ({
+                    id: record.id,
+                    timestamp: record.timestamp,
+                    type: record.is_abnormal ? 'abnormal' : 'normal',
+                    status: 'resolved', // All historical alerts are resolved
+                    message: this.generateAlertMessage(record),
+                    data: record
+                }));
+            }
+
+            generateAlertMessage(record) {
+                if (record.is_abnormal) {
+                    let message = 'Abnormal vitals detected: ';
+                    if (record.heart_rate > 140) message += `High heart rate (${record.heart_rate} bpm) `;
+                    if (record.blood_pressure_systolic > 180) message += `High BP (${record.blood_pressure_systolic}/${record.blood_pressure_diastolic}) `;
+                    if (record.temperature > 101) message += `High temperature (${record.temperature}°F) `;
+                    return message.trim();
+                } else {
+                    return `Normal vitals: Heart rate ${record.heart_rate} bpm, BP ${record.blood_pressure_systolic}/${record.blood_pressure_diastolic}, Temp ${record.temperature}°F`;
+                }
+            }
+
+            displayAlerts() {
+                const container = document.getElementById('alertsContainer');
+                const filteredAlerts = this.applyFiltersToAlerts();
+
+                if (filteredAlerts.length === 0) {
+                    container.innerHTML = '<div class="alert alert-info">No alerts found matching the current filters.</div>';
+                    return;
+                }
+
+                const alertsHtml = filteredAlerts.map(alert => `
+                    <div class="card mb-3 alert-card ${alert.type === 'abnormal' ? 'border-danger' : 'border-success'}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-${alert.type === 'abnormal' ? 'exclamation-triangle text-danger' : 'check-circle text-success'} me-2"></i>
+                                        <small class="text-muted">${new Date(alert.timestamp).toLocaleString()}</small>
+                                        <span class="badge bg-${alert.type === 'abnormal' ? 'danger' : 'success'} ms-2">${alert.type.toUpperCase()}</span>
+                                    </div>
+                                    <p class="mb-2">${alert.message}</p>
+                                </div>
+                                <button class="btn btn-sm btn-outline-primary" onclick="viewAlertDetails('${alert.id}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = alertsHtml;
+            }
+
+            applyFiltersToAlerts() {
+                return this.alerts.filter(alert => {
+                    // Type filter
+                    if (this.currentFilters.type !== 'all' && alert.type !== this.currentFilters.type) {
+                        return false;
+                    }
+
+                    // Date range filter
+                    const alertDate = new Date(alert.timestamp);
+                    const now = new Date();
+                    let dateThreshold;
+
+                    switch (this.currentFilters.dateRange) {
+                        case 'today':
+                            dateThreshold = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                            break;
+                        case 'week':
+                            dateThreshold = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            break;
+                        case 'month':
+                            dateThreshold = new Date(now.getFullYear(), now.getMonth(), 1);
+                            break;
+                        default:
+                            dateThreshold = new Date(0); // All time
+                    }
+
+                    if (alertDate < dateThreshold) {
+                        return false;
+                    }
+
+                    // Status filter
+                    if (this.currentFilters.status !== 'all' && alert.status !== this.currentFilters.status) {
+                        return false;
+                    }
+
+                    return true;
+                });
+            }
+
+            applyFilters() {
+                this.currentFilters = {
+                    type: document.getElementById('alertTypeFilter').value,
+                    dateRange: document.getElementById('dateRangeFilter').value,
+                    status: document.getElementById('statusFilter').value
+                };
+                this.displayAlerts();
+            }
+        }
+
+        // Global alerts page instance
+        let alertsPage;
+
+        // Global functions
+        function refreshAlerts() {
+            if (alertsPage) {
+                alertsPage.loadAlerts();
+            }
+        }
+
+        function applyFilters() {
+            if (alertsPage) {
+                alertsPage.applyFilters();
+            }
+        }
+
+        function viewAlertDetails(alertId) {
+            // This would show detailed alert information
+            console.log('Viewing alert details for:', alertId);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            alertsPage = new AlertsPage();
+        });
+    </script>
+</body>
+</html>

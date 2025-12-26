@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="primary_color">#4CAF50</color>
+    <color name="primary_dark">#2E7D32</color>
+    <color name="primary_light">#81C784</color>
+    
+    <!-- Secondary Colors -->
+    <color name="secondary_color">#2196F3</color>
+    <color name="secondary_dark">#1976D2</color>
+    <color name="secondary_light">#64B5F6</color>
+    
+    <!-- Emergency Colors -->
+    <color name="emergency_color">#F44336</color>
+    <color name="emergency_dark">#D32F2F</color>
+    <color name="emergency_light">#EF5350</color>
+    
+    <!-- Warning Colors -->
+    <color name="warning_color">#FF9800</color>
+    <color name="warning_dark">#F57C00</color>
+    <color name="warning_light">#FFB74D</color>
+    
+    <!-- Background Colors -->
+    <color name="background_color">#FAFAFA</color>
+    <color name="background_gradient">#F5F5F5</color>
+    <color name="surface_color">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="hint_text">#BDBDBD</color>
+    <color name="white_text">#FFFFFF</color>
+    
+    <!-- Status Colors -->
+    <color name="success_color">#4CAF50</color>
+    <color name="info_color">#2196F3</color>
+    <color name="error_color">#F44336</color>
+    
+    <!-- Health Status Colors -->
+    <color name="normal_status">#4CAF50</color>
+    <color name="abnormal_status">#FF9800</color>
+    <color name="critical_status">#F44336</color>
+    
+    <!-- Chart Colors -->
+    <color name="chart_heart_rate">#E91E63</color>
+    <color name="chart_blood_pressure">#9C27B0</color>
+    <color name="chart_temperature">#FF5722</color>
+    <color name="chart_activity">#607D8B</color>
+    
+    <!-- Transparency -->
+    <color name="overlay_dark">#80000000</color>
+    <color name="overlay_light">#40FFFFFF</color>
+    
+    <!-- Material Design Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>

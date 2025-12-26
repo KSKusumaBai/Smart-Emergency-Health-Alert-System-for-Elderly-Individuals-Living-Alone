@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="@color/primary_color"
+        android:pathData="M50,5 A45,45 0 1,1 50,95 A45,45 0 1,1 50,5 Z"
+        android:strokeColor="@color/primary_dark"
+        android:strokeWidth="2" />
+
+    <!-- Heart shape -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M50,75 C40,65 25,50 35,35 C40,30 50,35 50,40 C50,35 60,30 65,35 C75,50 60,65 50,75 Z" />
+
+    <!-- Pulse line -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M20,50 L30,50 L35,40 L40,60 L45,30 L50,70 L55,30 L60,60 L65,40 L70,50 L80,50"
+        android:strokeColor="@color/white"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Plus sign for medical -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M47,15 L53,15 L53,35 L47,35 Z M40,22 L60,22 L60,28 L40,28 Z" />
+
+    <!-- Watch indication -->
+    <path
+        android:fillColor="@color/white"
+        android:pathData="M75,75 L95,75 L95,90 L75,90 Z"
+        android:strokeColor="@color/primary_color"
+        android:strokeWidth="1" />
+    
+    <circle
+        android:cx="85"
+        android:cy="82.5"
+        android:r="2"
+        android:fillColor="@color/primary_color" />
+
+</vector>
